@@ -1,0 +1,3 @@
+[submodule "nixill"]
+	path = nixill
+	url = https://github.com/Nixill/Python-Nixill.git
