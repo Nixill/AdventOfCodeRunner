@@ -12,12 +12,6 @@ members = [
 name = "adventofcoderunner"
 version = "0.1.0"
 source = { editable = "." }
-dependencies = [
-    { name = "nixill" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "nixill", editable = "nixill" }]
 
 [[package]]
 name = "nixill"

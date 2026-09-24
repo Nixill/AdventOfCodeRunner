@@ -3,13 +3,9 @@ name = "adventofcoderunner"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-authors = [
-    { name = "Nixill", email = "github@nixill.net" }
-]
+authors = [{ name = "Nixill", email = "github@nixill.net" }]
 requires-python = ">=3.14"
-dependencies = [
-    "nixill",
-]
+dependencies = []
 
 [project.scripts]
 adventofcoderunner = "adventofcoderunner:main"
@@ -17,11 +13,3 @@ adventofcoderunner = "adventofcoderunner:main"
 [build-system]
 requires = ["uv_build>=0.12.1,<0.13.0"]
 build-backend = "uv_build"
-
-[tool.uv.workspace]
-members = [
-    "nixill",
-]
-
-[tool.uv.sources]
-nixill = { workspace = true }
