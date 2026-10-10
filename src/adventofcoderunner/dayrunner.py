@@ -40,9 +40,15 @@ class InputFile():
     self.process_p2 = process_p2
 
   def next_line(self) -> str:
+    '''One single line from the input stream. Does not include line termination characters.'''
     return self.stream.readline().rstrip('\r\n')
 
   def lines_until_empty(self) -> Iterable[str]:
+    '''
+    Iterable of all remaining lines until an empty line is reached. Does not include line
+    termination characters, nor the empty line on the end. The pointer is placed at the start of
+    the line after the empty line.
+    '''
     while True:
       line = self.stream.readline().rstrip('\r\n')
       if line:
@@ -51,6 +57,9 @@ class InputFile():
         return
 
   def all_lines(self) -> Iterable[str]:
+    '''
+    Iterable of all remaining lines. If the file ends with an empty line, that line is skipped.
+    '''
     while True:
       line = self.stream.readline()
       if line:
@@ -59,6 +68,10 @@ class InputFile():
         return
 
   def content_until_empty(self) -> str:
+    '''
+    All content up to, but not including, the next empty line. The pointer is placed at the start
+    of the next line after the empty line.
+    '''
     output = ''
     while True:
       line = self.stream.readline()
@@ -68,6 +81,9 @@ class InputFile():
         return output.rstrip('\r\n')
 
   def all_remaining_content(self) -> str:
+    '''
+    All remaining content in the file. If the file ends with an empty line, it is stripped.
+    '''
     return self.stream.read().rstrip('\r\n')
 
   def __hash__(self): return self.filepath.__hash__()
