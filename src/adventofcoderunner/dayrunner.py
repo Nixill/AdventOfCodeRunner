@@ -86,6 +86,31 @@ class InputFile():
     '''
     return self.stream.read().rstrip('\r\n')
 
+  def block_iterable(self) -> Iterable[str]:
+    '''
+    Iterator over remaining blocks of content. A "block" is one or more non-blank lines of content
+    followed by either EOF or a blank line (which is not included in the block).
+    '''
+    while True:
+      block = self.content_until_empty()
+      if block:
+        yield block
+      else:
+        return
+
+  def block_lines_iterable(self) -> Iterable[Iterable[str]]:
+    '''
+    Iterator over remaining blocks of content, where each block is presented as a list of lines. A
+    "block" is one or more non-blank lines of content followed by either EOF or a blank line (which
+    is not included in the block).
+    '''
+    while True:
+      block = list(self.lines_until_empty())
+      if block:
+        yield block
+      else:
+        return
+
   def __hash__(self): return self.filepath.__hash__()
   def __eq__(self, other): return self.filepath.__eq__(other)
 
