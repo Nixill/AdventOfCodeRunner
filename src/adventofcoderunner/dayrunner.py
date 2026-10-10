@@ -68,7 +68,7 @@ class InputFile():
         return output.rstrip('\r\n')
 
   def all_remaining_content(self) -> str:
-    return self.stream.read()
+    return self.stream.read().rstrip('\r\n')
 
   def __hash__(self): return self.filepath.__hash__()
   def __eq__(self, other): return self.filepath.__eq__(other)
