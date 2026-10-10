@@ -156,6 +156,65 @@ def get_input_for_day(day_index: int) -> InputFile:
   return InputFile(Path(f'data/day{day_index}/input.txt'))
 
 def run_code_for_day[T : DayCode](day_code: type[T], day_index: int) -> None:
+  from optparse import OptionParser
+  parser = OptionParser()
+  parser.add_option('-e', '--example', help='Example file', action='store_true', default=False, dest='example')
+  (options, args) = parser.parse_args()
+
+  if len(args) == 0:
+    run_code_for_day_default_files(day_code, day_index)
+  else:
+    if options.example:
+      run_code_for_day_custom_example(day_code, day_index, args[0])
+    else:
+      run_code_for_day_custom_input(day_code, day_index, args[0])
+
+def run_code_for_day_custom_example[T : DayCode](day_code: type[T], day_index: int, filename: str) -> None:
+  input_file = ExampleFile(Path(f'data/day{day_index}') / filename)
+
+  passing = True
+  print(f'For example file {input_file.filepath.stem}:')
+  example_output = day_code(input_file)
+  daycode = example_output.result
+
+  if daycode.exception:
+    print(f'Exception occurred: {daycode.exception}')
+    return
+
+  if daycode.part_1_answer is not None:
+    if input_file.expected_answer_p1 is not None:
+      matches = daycode.part_1_answer == input_file.expected_answer_p1
+      passing &= matches
+      print(f'Part 1 answer: {daycode.part_1_answer} / Expected: {input_file.expected_answer_p1} / Pass: {matches}')
+    else:
+      print(f'Part 1 answer: {daycode.part_1_answer} / (No expected answer)')
+
+  if daycode.part_2_answer is not None:
+    if input_file.expected_answer_p2 is not None:
+      matches = daycode.part_2_answer == input_file.expected_answer_p2
+      passing &= matches
+      print(f'Part 2 answer: {daycode.part_2_answer} / Expected: {input_file.expected_answer_p2} / Pass: {matches}')
+    else:
+      print(f'Part 2 answer: {daycode.part_2_answer} / (No expected answer)')
+
+  print()
+  if passing:
+    print('File passed')
+  else:
+    print('File failed')
+
+def run_code_for_day_custom_input[T : DayCode](day_code: type[T], day_index: int, filename: str) -> None:
+  input_file = InputFile(Path(f'data/day{day_index}') / filename)
+  daycode = day_code(input_file)
+
+  if daycode.result.exception:
+    print(f'Exception: {daycode.result.exception}')
+  if daycode.result.part_1_answer:
+    print(f'Part 1 answer: {daycode.result.part_1_answer}')
+  if daycode.result.part_2_answer:
+    print(f'Part 2 answer: {daycode.result.part_2_answer}')
+
+def run_code_for_day_default_files[T : DayCode](day_code: type[T], day_index: int) -> None:
   print()
 
   examples = get_examples_for_day(day_index)
