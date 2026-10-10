@@ -125,7 +125,7 @@ class ExampleFile(InputFile):
     super().__init__(filepath)
     answer_1 = self.next_line()
     if answer_1:
-      if answer_1 == '\\SKIP':
+      if answer_1.upper() == '\\SKIP':
         self.process_p1 = False
       else:
         try:
@@ -135,7 +135,7 @@ class ExampleFile(InputFile):
 
     answer_2 = self.next_line()
     if answer_2:
-      if answer_2 == '\\SKIP':
+      if answer_2.upper() == '\\SKIP':
         self.process_p2 = False
       else:
         try:
